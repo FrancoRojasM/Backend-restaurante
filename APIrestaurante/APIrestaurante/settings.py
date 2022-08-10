@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gestionCategorias',
-    'rest_framework'
+    'rest_framework',
+    'adminUsuarios'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# se ha modificado el modelo de usuario, entonces se utilizará este en vez del original:
+AUTH_USER_MODEL='adminUsuarios.Usuario'
+
+
+# Modificando las propiedades originales de Django Rest Framework
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework_simplejwt.authentication.JWTAuthentication',]
+}
