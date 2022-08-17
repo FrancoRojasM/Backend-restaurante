@@ -1,12 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.generics import ListAPIView,CreateAPIView
-from .serializers import CategoriaSerializer, CrearCategoriaSerializer, PruebaSerializer
+from rest_framework.generics import ListAPIView,CreateAPIView,RetrieveUpdateDestroyAPIView,DestroyAPIView
+from .serializers import ActualizarCategoriaSerializer, CategoriaSerializer, CrearCategoriaSerializer, EliminarCategoriaSerializer, PruebaSerializer
 from .models import Categoria
 from rest_framework import status
 
-@api_view(http_method_names=['GET','POST'])
+@api_view(http_method_names=['GET','POST','PUT','DELETE'])
 def inicio(request:Request):
     print(request.data)
     return Response(data={
@@ -32,6 +32,7 @@ class CategoriasView(ListAPIView):
             'content':categoriaSerializada.data
         },status=status.HTTP_200_OK)
 
+
 class CrearCategoriasView(CreateAPIView):
     queryset=Categoria.objects.all()
     serializer_class=CrearCategoriaSerializer
@@ -44,3 +45,22 @@ class CrearCategoriasView(CreateAPIView):
             
             return Response(data=instanciaSerializador.data, status=status.HTTP_201_CREATED)
 
+class ActualizarCategoriasView(RetrieveUpdateDestroyAPIView):
+    serializer_class=ActualizarCategoriaSerializer
+    queryset=Categoria.objects.all()    
+    
+
+    # def put(self,request,*args,**kwargs):        
+    #     body= request.data
+    #     instanciaSerializador=self.serializer_class(data=body)        
+    #     # Partial update of the data
+    #     serializer = self.serializer_class(data=instanciaSerializador, partial=True)
+    #     if instanciaSerializador.is_valid():
+    #         self.perform_update(serializer)
+    #         instanciaSerializador.save()
+
+    #     return Response(serializer.data)
+        
+class EliminarCategoriasView(DestroyAPIView):
+    serializer_class=EliminarCategoriaSerializer
+    queryset=Categoria.objects.all()
