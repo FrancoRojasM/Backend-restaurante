@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gestionCategorias',
+    'gestionPlatos',
     'rest_framework',
     'adminUsuarios'
 ]
