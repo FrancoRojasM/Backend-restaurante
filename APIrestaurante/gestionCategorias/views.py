@@ -5,6 +5,8 @@ from rest_framework.generics import ListAPIView,CreateAPIView,RetrieveUpdateDest
 from .serializers import ActualizarCategoriaSerializer, CategoriaSerializer, CrearCategoriaSerializer, EliminarCategoriaSerializer, PruebaSerializer
 from .models import Categoria
 from rest_framework import status
+# agregado
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(http_method_names=['GET','POST','PUT','DELETE'])
 def inicio(request:Request):
@@ -24,6 +26,8 @@ class PruebaView(ListAPIView):
 class CategoriasView(ListAPIView):
     queryset=Categoria.objects.all()
     serializer_class=CategoriaSerializer
+    # agreagdo
+    permission_classes=[IsAuthenticated]
     def get(self,request):
         categorias=self.get_queryset()
         categoriaSerializada= self.serializer_class(instance=categorias,many=True)
@@ -38,6 +42,8 @@ class CrearCategoriasView(CreateAPIView):
     serializer_class=CrearCategoriaSerializer
     def post(self,request:Request):
         body= request.data
+        print(request.user.nombre)
+        body['adminId']=request.user.id
         instanciaSerializador=self.serializer_class(data=body)
         validacion=instanciaSerializador.is_valid(raise_exception=True)
         if validacion== True:
@@ -48,19 +54,8 @@ class CrearCategoriasView(CreateAPIView):
 class ActualizarCategoriasView(RetrieveUpdateDestroyAPIView):
     serializer_class=ActualizarCategoriaSerializer
     queryset=Categoria.objects.all()    
-    
+     
 
-    # def put(self,request,*args,**kwargs):        
-    #     body= request.data
-    #     instanciaSerializador=self.serializer_class(data=body)        
-    #     # Partial update of the data
-    #     serializer = self.serializer_class(data=instanciaSerializador, partial=True)
-    #     if instanciaSerializador.is_valid():
-    #         self.perform_update(serializer)
-    #         instanciaSerializador.save()
-
-    #     return Response(serializer.data)
-        
 class EliminarCategoriasView(DestroyAPIView):
     serializer_class=EliminarCategoriaSerializer
-    queryset=Categoria.objects.all()
+    queryset=Categoria.objects.all()    

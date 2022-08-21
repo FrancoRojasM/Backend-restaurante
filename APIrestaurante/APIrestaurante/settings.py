@@ -144,3 +144,9 @@ AUTH_USER_MODEL='adminUsuarios.Usuario'
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework_simplejwt.authentication.JWTAuthentication',]
 }
+
+from datetime import timedelta
+
+SIMPLE_JWT={
+    'ACCESS_TOKEN_LIFETIME':timedelta(hours=1,minutes=20,seconds=10)
+}

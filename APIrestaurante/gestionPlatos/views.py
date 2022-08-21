@@ -5,6 +5,8 @@ from rest_framework.generics import ListAPIView,CreateAPIView,RetrieveUpdateDest
 from .serializers import ActualizarPlatosSerializer, CrearPlatosSerializer, EliminarPlatosSerializer, PruebaPlatosSerializer,PlatosSerializer
 from .models import Platos
 from rest_framework import status
+# agregado
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -28,6 +30,7 @@ class PlatosView(ListAPIView):
     serializer_class=PlatosSerializer
     def get(self,request):
         platos=self.get_queryset()
+        permission_classes=[IsAuthenticated]
         platoSerializado= self.serializer_class(instance=platos,many=True)
         return Response(data={
             'message':'Los platos son',
@@ -39,6 +42,8 @@ class CrearPlatosView(CreateAPIView):
     serializer_class=CrearPlatosSerializer
     def post(self,request:Request):
         body= request.data
+        print(request.user.nombre)
+        body['adminId']=request.user.id
         instanciaSerializador=self.serializer_class(data=body)
         validacion=instanciaSerializador.is_valid(raise_exception=True)
         if validacion== True:
