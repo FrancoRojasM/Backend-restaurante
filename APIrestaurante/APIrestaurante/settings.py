@@ -148,5 +148,5 @@ REST_FRAMEWORK={
 from datetime import timedelta
 
 SIMPLE_JWT={
-    'ACCESS_TOKEN_LIFETIME':timedelta(hours=1,minutes=20,seconds=10)
+    'ACCESS_TOKEN_LIFETIME':timedelta(hours=0,minutes=15,seconds=10)
 }
