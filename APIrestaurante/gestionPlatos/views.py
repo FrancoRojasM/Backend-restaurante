@@ -28,9 +28,9 @@ class PruebaPlatosView(ListAPIView):
 class PlatosView(ListAPIView):
     queryset=Platos.objects.all()
     serializer_class=PlatosSerializer
+    permission_classes=[IsAuthenticated]
     def get(self,request):
-        platos=self.get_queryset()
-        permission_classes=[IsAuthenticated]
+        platos=self.get_queryset()        
         platoSerializado= self.serializer_class(instance=platos,many=True)
         return Response(data={
             'message':'Los platos son',
